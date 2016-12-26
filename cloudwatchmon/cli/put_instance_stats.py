@@ -17,6 +17,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+from __future__ import absolute_import
+from __future__ import print_function
 from cloudwatchmon.cloud_watch_client import *
 
 import argparse
@@ -403,7 +405,7 @@ def add_static_file_metrics(args, metrics):
                 (label, unit, value) = [x.strip() for x in line.split(',')]
                 metrics.add_metric(label, unit, value)
             except ValueError:
-                print 'Ignore unparseable metric: "' + line + '"'
+                print('Ignore unparseable metric: "' + line + '"')
                 pass
 
 
@@ -465,7 +467,7 @@ def main():
     args = parser.parse_args()
 
     if args.version:
-        print CLIENT_NAME + ' version ' + VERSION
+        print(CLIENT_NAME + ' version ' + VERSION)
         return 0
 
     try:
@@ -476,13 +478,13 @@ def main():
             time.sleep(random.randint(0, 19))
 
         if args.verbose:
-            print 'Working in verbose mode'
-            print 'Boto-Version: ' + boto.__version__
+            print('Working in verbose mode')
+            print('Boto-Version: ' + boto.__version__)
 
         metadata = get_metadata()
 
         if args.verbose:
-            print 'Instance metadata: ' + str(metadata)
+            print('Instance metadata: ' + str(metadata))
 
         region = metadata['placement']['availability-zone'][:-1]
         instance_id = metadata['instance-id']
@@ -493,7 +495,7 @@ def main():
                                                                 args.verbose)
 
             if args.verbose:
-                print 'Autoscaling group: ' + autoscaling_group_name
+                print('Autoscaling group: ' + autoscaling_group_name)
 
         metrics = Metrics(region,
                           instance_id,
@@ -515,16 +517,16 @@ def main():
             add_disk_metrics(args, metrics)
 
         if args.verbose:
-            print 'Request:\n' + str(metrics)
+            print('Request:\n' + str(metrics))
 
         if args.verify:
             if not args.from_cron:
-                print 'Verification completed successfully. ' \
-                      'No actual metrics sent to CloudWatch.'
+                print('Verification completed successfully. ' \
+                      'No actual metrics sent to CloudWatch.')
         else:
             metrics.send(args.verbose)
             if not args.from_cron:
-                print 'Successfully reported metrics to CloudWatch.'
+                print('Successfully reported metrics to CloudWatch.')
     except Exception as e:
         log_error(str(e), args.from_cron)
         return 1

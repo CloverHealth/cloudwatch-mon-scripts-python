@@ -15,6 +15,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+from __future__ import absolute_import
+from __future__ import print_function
 import boto
 import boto.utils
 import hashlib
@@ -66,7 +68,7 @@ def log_error(message, use_syslog):
     if use_syslog:
         syslog.syslog(syslog.LOG_ERR, message)
     else:
-        print >> sys.stderr, 'ERROR: ' + message
+        print('ERROR: ' + message, file=sys.stderr)
 
 
 @FileCache

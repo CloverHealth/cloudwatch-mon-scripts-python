@@ -58,7 +58,7 @@ class FileCache:
 
         tmp = self.fnc(*args, **kwargs)
         with open(filename, 'wb') as f:
-            os.chmod(filename, 0600)
+            os.chmod(filename, 0o600)
             pickle.dump(tmp, f)
 
         return tmp

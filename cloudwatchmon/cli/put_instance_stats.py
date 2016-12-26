@@ -31,6 +31,7 @@ import random
 import re
 import sys
 import time
+from six.moves import range
 
 CLIENT_NAME = 'CloudWatch-PutInstanceData'
 FileCache.CLIENT_NAME = CLIENT_NAME
@@ -185,7 +186,7 @@ class Metrics:
 
         size = len(self.names)
 
-        for idx_start in xrange(0, size, AWS_LIMIT_METRICS_SIZE):
+        for idx_start in range(0, size, AWS_LIMIT_METRICS_SIZE):
             idx_end = idx_start + AWS_LIMIT_METRICS_SIZE
             response = conn.put_metric_data('System/Linux',
                                             self.names[idx_start:idx_end],
